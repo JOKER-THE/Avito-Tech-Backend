@@ -8,9 +8,9 @@ package entities
  * Created_At - время создания пользователя
  */
 type User struct {
-    Id         string
-    Username   string
-    Created_At string
+    Id         string `json:"id"`
+    Username   string `json:"username"`
+    Created_At string `json:"created_at"`
 }
 
 /**

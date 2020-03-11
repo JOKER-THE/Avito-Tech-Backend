@@ -10,11 +10,11 @@ package entities
  * Created_At - дата создания
  */
 type Message struct {
-    Id         string
-    Chat       string
-    Author     string
-    Text       string
-    Created_At string
+    Id         string `json:"id"`
+    Chat       string `json:"chat"`
+    Author     string `json:"author"`
+    Text       string `json:"text"`
+    Created_At string `json:"created_at"`
 }
 
 /**
