@@ -20,14 +20,14 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
  */
 func main() {
     /**
-	 * Роутинг URL
-	 *
-	 */
+     * Роутинг URL
+     *
+     */
     http.HandleFunc("/", indexHandler)
 
     /**
-	 * Старт сервера на 9000-порту
-	 *
-	 */
+     * Старт сервера на 9000-порту
+     *
+     */
     http.ListenAndServe(":9000", nil)
 }
