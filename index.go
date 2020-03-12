@@ -7,6 +7,7 @@ import (
     _ "github.com/go-sql-driver/mysql"
     "fmt"
     "net/http"
+    "time"
 )
 
 var database *sql.DB
@@ -55,7 +56,24 @@ func addUserHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
     if r.Method == "POST" {
+        var data map[string]interface{}
+        json.NewDecoder(r.Body).Decode(&data)
+        user := data["username"]
+        created := time.Now().Unix()
         
+        result, err := database.Exec(`
+            INSERT INTO users (username, created_at) VALUES (?, ?)
+        `, user, created)
+        if err != nil {
+            panic(err.Error())
+        }
+
+        id, err := result.LastInsertId()
+        if err != nil{
+            panic(err)
+        }
+
+        json.NewEncoder(w).Encode(id)
     }
 }
 

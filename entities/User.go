@@ -8,7 +8,7 @@ package entities
  * Created_At - время создания пользователя
  */
 type User struct {
-    Id         string `json:"id"`
+    Id         int32  `json:"id"`
     Username   string `json:"username"`
     Created_At string `json:"created_at"`
 }
@@ -17,6 +17,6 @@ type User struct {
  * NewUser - конструктор структуры User,
  * возвращающий экземпляр пользователя
  */
-func NewUser(id, username, created_at string) *User {
+func NewUser(id int32, username, created_at string) *User {
     return &User{id, username, created_at}
 }
