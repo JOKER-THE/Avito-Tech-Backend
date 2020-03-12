@@ -1,4 +1,10 @@
-# Тестовое задание на позицию стажера-бекендера
+<p align="center">
+    <a href="https://golang.org/"><img src="https://golang.org/lib/godoc/images/home-gopher.png"></a>
+    <h1 align="center">Avito</h1>
+    <h2 align="center">Тестовое задание на позицию Backend</h2>
+</p>
+
+# Техническое задание
 
 Цель задания – разработать чат-сервер, предоставляющий HTTP API для работы с чатами и сообщениями пользователя.
 
@@ -113,3 +119,26 @@ curl --header "Content-Type: application/json" \
 ```
 
 Ответ: список всех сообщений чата со всеми полями, отсортированный по времени создания сообщения (от раннего к позднему). Или HTTP-код ошибки.
+
+
+# Инструкция по установке
+
+1. Скачиваем проект из репозитория:
+```
+$ git clone https://github.com/JOKER-THE/Avito-Tech-Backend.git
+```
+
+2. В файле `index.go` конфигурируем подключение к БД:
+```golang
+db, err := sql.Open("mysql", "username:password@/database_name")
+```
+
+3. Первый запуск требует установки дополнительного пакета `github.com/go-sql-driver/mysql`, поэтому нам надо собрать проект:
+```
+$ make build
+```
+
+4. Дальнейший запуск программы возможен командой:
+```
+$ make
+```
