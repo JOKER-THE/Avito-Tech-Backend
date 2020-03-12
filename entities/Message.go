@@ -10,9 +10,9 @@ package entities
  * Created_At - дата создания
  */
 type Message struct {
-    Id         string `json:"id"`
-    Chat       string `json:"chat"`
-    Author     string `json:"author"`
+    Id         int32  `json:"id"`
+    Chat       int32  `json:"chat"`
+    Author     int32  `json:"author"`
     Text       string `json:"text"`
     Created_At string `json:"created_at"`
 }
@@ -21,6 +21,6 @@ type Message struct {
  * NewMessage - конструктор структуры Message,
  * возвращающий экземпляр сообщения
  */
-func NewMessage(id, chat, author, text, created_at string) *Message {
+func NewMessage(id int32, chat int32, author int32, text, created_at string) *Message {
     return &Message{id, chat, author, text, created_at}
 }

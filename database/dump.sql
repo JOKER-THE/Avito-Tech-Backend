@@ -43,8 +43,8 @@ CREATE TABLE `chats_users` (
 
 CREATE TABLE `messages` (
   `id` int(11) NOT NULL,
-  `chat` varchar(255) NOT NULL,
-  `author` varchar(255) NOT NULL,
+  `chat` int(11) NOT NULL,
+  `author` int(11) NOT NULL,
   `text` text NOT NULL,
   `created_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

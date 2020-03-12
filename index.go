@@ -133,7 +133,26 @@ func addMessageHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
     if r.Method == "POST" {
-        
+        var data map[string]interface{}
+        json.NewDecoder(r.Body).Decode(&data)
+        chat := data["chat"]
+        author := data["author"]
+        text := data["text"]
+        created := time.Now().Unix()
+
+        result, err := database.Exec(`
+            INSERT INTO messages (chat, author, text, created_at) VALUES (?, ?, ?, ?)
+        `, chat, author, text, created)
+        if err != nil {
+            panic(err.Error())
+        }
+
+        id, err := result.LastInsertId()
+        if err != nil{
+            panic(err)
+        }
+
+        json.NewEncoder(w).Encode(id)
     }
 }
 
