@@ -121,7 +121,46 @@ func getChatHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
     if r.Method == "POST" {
+        var chats []entities.Chat
+        var data map[string]interface{}
+
+        json.NewDecoder(r.Body).Decode(&data)
+
+        user := data["user"]
         
+        result, err := database.Query(`
+            SELECT chats.id, chats.name, users.users, chats.created_at
+            FROM chats_users
+            INNER JOIN chats ON chats_users.chat_id = chats.id
+            INNER JOIN messages ON chats.id = messages.chat
+            INNER JOIN (
+                SELECT 
+                chats.id, GROUP_CONCAT(DISTINCT users.id ORDER BY users.id ASC SEPARATOR ", ") AS users 
+                FROM chats 
+                LEFT OUTER JOIN chats_users ON chats.id = chats_users.chat_id 
+                LEFT OUTER JOIN users ON chats_users.user_id = users.id 
+                GROUP BY chats.id
+            ) AS users ON chats_users.chat_id = users.id
+            WHERE user_id = ?
+            GROUP BY chats_users.chat_id
+            ORDER BY messages.created_at DESC
+        `, user)
+        if err != nil {
+            panic(err.Error())
+        }
+
+        defer result.Close()
+
+        for result.Next() {
+            var chat entities.Chat
+            err := result.Scan(&chat.Id, &chat.Name, &chat.Users, &chat.Created_At)
+            if err != nil {
+                panic(err.Error())
+            }
+            chats = append(chats, chat)
+        }
+
+        json.NewEncoder(w).Encode(chats)
     }
 }
 
