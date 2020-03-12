@@ -164,6 +164,34 @@ func getMessageHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
     if r.Method == "POST" {
+        var messages []entities.Message
+        var data map[string]interface{}
+
+        json.NewDecoder(r.Body).Decode(&data)
+
+        chat := data["chat"]
         
+        result, err := database.Query(`
+            SELECT id, chat, author, text, created_at
+            FROM messages
+            WHERE chat = ?
+            ORDER BY created_at ASC
+        `, chat)
+        if err != nil {
+            panic(err.Error())
+        }
+
+        defer result.Close()
+
+        for result.Next() {
+            var message entities.Message
+            err := result.Scan(&message.Id, &message.Chat, &message.Author, &message.Text, &message.Created_At)
+            if err != nil {
+                panic(err.Error())
+            }
+            messages = append(messages, message)
+        }
+
+        json.NewEncoder(w).Encode(messages)
     }
 }
