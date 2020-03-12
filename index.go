@@ -85,7 +85,31 @@ func addChatHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
 
     if r.Method == "POST" {
-        
+        var data map[string]interface{}
+        json.NewDecoder(r.Body).Decode(&data)
+        name := data["name"]
+        created := time.Now().Unix()
+        users := data["users"].([]interface{})
+
+        result, err := database.Exec(`
+            INSERT INTO chats (name, created_at) VALUES (?, ?)
+        `, name, created)
+        if err != nil {
+            panic(err.Error())
+        }
+
+        id, err := result.LastInsertId()
+        if err != nil{
+            panic(err)
+        }
+
+        for _, v := range users {
+            database.Exec(`
+                INSERT INTO chats_users (user_id, chat_id) VALUES (?, ?)
+            `, v, id)
+        }
+
+        json.NewEncoder(w).Encode(id)
     }
 }
 

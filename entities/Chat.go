@@ -9,7 +9,7 @@ package entities
  * Created_At - время создания
  */
 type Chat struct {
-    Id         string `json:"id"`
+    Id         int32  `json:"id"`
     Name       string `json:"name"`
     Users      string `json:"users"`
     Created_At string `json:"created_at"`
@@ -19,6 +19,6 @@ type Chat struct {
  * NewChat - конструктор структуры Chat,
  * возвращающий экземпляр чата
  */
-func NewChat(id, name, users, created_at string) *Chat {
+func NewChat(id int32, name, users, created_at string) *Chat {
     return &Chat{id, name, users, created_at}
 }
