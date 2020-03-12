@@ -133,12 +133,14 @@ $ git clone https://github.com/JOKER-THE/Avito-Tech-Backend.git
 db, err := sql.Open("mysql", "username:password@/database_name")
 ```
 
-3. Первый запуск требует установки дополнительного пакета `github.com/go-sql-driver/mysql`, поэтому нам надо собрать проект:
+3. Импортируем дамп базы данных из файла `database/dump.sql`
+
+4. Первый запуск требует установки дополнительного пакета `github.com/go-sql-driver/mysql`, поэтому нам надо собрать проект:
 ```
 $ make build
 ```
 
-4. Дальнейший запуск программы возможен командой:
+5. Дальнейший запуск программы возможен командой:
 ```
 $ make
 ```
